@@ -95,6 +95,11 @@ class Grid extends \PhpTheme\Widget\Widget
                 {
                     $header = $headers[$key];
 
+                    if ($header->defaultCellAttributes)
+                    {
+                        $cell->attributes = HtmlHelper::mergeAttributes($cell->attributes, $header->defaultCellAttributes);
+                    }
+
                     if ($header->cellAttributes)
                     {
                         $cell->attributes = HtmlHelper::mergeAttributes($cell->attributes, $header->cellAttributes);
