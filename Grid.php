@@ -167,14 +167,14 @@ class Grid extends \PhpTheme\Widget\Widget
     {
         $class = $params['class'] ?? static::GRID_CELL;
 
-        return new $class($params);
+        return new $class($params, $this);
     }
 
     public function createHeader(array $params = [])
     {
         $class = $params['class'] ?? static::GRID_HEADER;
 
-        return new $class($params);
+        return new $class($params, $this);
     }
 
 }
