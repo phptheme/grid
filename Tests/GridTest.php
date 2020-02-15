@@ -51,11 +51,14 @@ class GridTest extends \PHPUnit\Framework\TestCase
         $content = $grid->toString();
 
         $this->assertEquals($content, '<table class="class_1 class_2">'
+            . '<thead>'
             . '<tr>'
                 . '<th>header_1</th>'
                 . '<th class="d-none d-md-table-cell">header_2</th>'
                 . '<th>header_3</th>'
             . '</tr>'
+            . '</thead>' 
+            . '<tbody>'
             . '<tr>'
                 . '<td>col_1_1</td>'
                 . '<td class="d-none d-md-table-cell">col_1_2</td>'
@@ -66,6 +69,7 @@ class GridTest extends \PHPUnit\Framework\TestCase
                 . '<td class="d-none d-md-table-cell">col_2_2</td>'
                 . '<td>col_2_3</td>'
             . '</tr>'
+            . '</tbody>'
         . '</table>');
     }
 

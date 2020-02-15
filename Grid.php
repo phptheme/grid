@@ -28,9 +28,13 @@ class Grid extends \PhpTheme\Widget\Widget
 
     public $headers = [];
 
-    public $headersTemplate = '<tr>{headers}</tr>';
+    public $headerTemplate = '<thead>{header}</thead>';
 
-    public $itemTemplate = '<tr>{item}</tr>';
+    public $bodyTemplate = '<tbody>{body}</tbody>';
+
+    public $headerRowTemplate = '<tr>{row}</tr>';
+
+    public $bodyRowTemplate = '<tr>{row}</tr>';
 
     public function getItems()
     {
@@ -111,13 +115,15 @@ class Grid extends \PhpTheme\Widget\Widget
                 $cell->attributes = $attributes;
             }
 
-            $content .= strtr($this->itemTemplate, ['{item}' => $item]);
+            $content .= strtr($this->bodyRowTemplate, ['{row}' => $item]);
         }
+
+        $content = strtr($this->bodyTemplate, ['{body}' => $content]);
 
         return $content;
     }
 
-    public function renderHeaders()
+    public function renderHeader()
     {
         $content = '';
 
@@ -126,7 +132,9 @@ class Grid extends \PhpTheme\Widget\Widget
             $content .= $column->toString();
         }
 
-        return strtr($this->headersTemplate, ['{headers}' => $content]);
+        $content = strtr($this->headerRowTemplate, ['{row}' => $content]);
+
+        return strtr($this->headerTemplate, ['{header}' => $content]);
     }
 
     public function getHeaders()
@@ -160,7 +168,7 @@ class Grid extends \PhpTheme\Widget\Widget
     {
         $content = $this->renderItems();
 
-        return $this->renderHeaders() . $content;
+        return $this->renderHeader() . $content;
     }
 
     public function createCell(array $params = [])
