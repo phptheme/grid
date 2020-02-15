@@ -13,6 +13,8 @@ class GridHeader extends \PhpTheme\Widget\Widget
 
     public $tag = 'th';
 
+    public $cellAttributes = [];
+
     public function __construct(array $params = [], Grid $grid = null)
     {
         parent::__construct($params);

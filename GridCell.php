@@ -23,6 +23,6 @@ class GridCell extends \PhpTheme\Widget\Widget
     public function getGrid()
     {
         return $this->_grid;
-    }    
+    }
 
 }

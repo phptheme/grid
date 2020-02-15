@@ -7,6 +7,7 @@
 namespace PhpTheme\Grid;
 
 use Closure;
+use PhpTheme\HtmlHelper\HtmlHelper;
 
 class Grid extends \PhpTheme\Widget\Widget
 {
@@ -80,13 +81,29 @@ class Grid extends \PhpTheme\Widget\Widget
     {
         $content = '';
 
-        foreach($this->getItems() as $columns)
+        $headers = $this->getHeaders();
+
+        foreach($this->getItems() as $cells)
         {
             $item = '';
 
-            foreach($columns as $column)
+            foreach($cells as $key => $cell)
             {
-                $item .= $column->toString();
+                $attributes = $cell->attributes;
+
+                if (array_key_exists($key, $headers))
+                {
+                    $header = $headers[$key];
+
+                    if ($header->cellAttributes)
+                    {
+                        $cell->attributes = HtmlHelper::mergeAttributes($cell->attributes, $header->cellAttributes);
+                    }
+                }
+
+                $item .= $cell->toString();
+
+                $cell->attributes = $attributes;
             }
 
             $content .= strtr($this->itemTemplate, ['{item}' => $item]);

@@ -7,6 +7,7 @@
         }
     },
     "require": {
-        "phptheme/widget": "*"
+        "phptheme/widget": "*",
+        "phptheme/html-helper": "*"
     }
 }
