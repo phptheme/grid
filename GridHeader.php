@@ -9,6 +9,8 @@ namespace PhpTheme\Grid;
 class GridHeader extends \PhpTheme\Widget\Widget
 {
 
+    const GRID_CELL = GridCell::class;
+
     protected $_grid;
 
     public $tag = 'th';
@@ -27,6 +29,16 @@ class GridHeader extends \PhpTheme\Widget\Widget
     public function getGrid()
     {
         return $this->_grid;
+    }
+
+    public function getCellAttributes() : array
+    {
+        return $this->cellAttributes;
+    }
+
+    public function getDefaultCellAttributes() : array
+    {
+        return $this->defaultCellAttributes;
     }
 
 }

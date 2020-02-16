@@ -12,9 +12,9 @@ use PhpTheme\HtmlHelper\HtmlHelper;
 class Grid extends \PhpTheme\Widget\Widget
 {
 
-    const GRID_CELL = GridCell::class;
-
     const GRID_HEADER = GridHeader::class;
+
+    const GRID_CELL = GridCell::class;
 
     protected $_items;
 
@@ -43,6 +43,8 @@ class Grid extends \PhpTheme\Widget\Widget
             return $this->_items;
         }
 
+        $headers = $this->getHeaders();
+
         $this->_items = [];
 
         if ($this->items instanceof Closure)
@@ -64,11 +66,18 @@ class Grid extends \PhpTheme\Widget\Widget
 
             foreach($this->_items[$key] as $k => $v)
             {
+                $header = $headers[$k];
+
                 if (!is_object($v))
                 {
                     if (!is_array($v))
                     {
                         $v = ['content' => $v];
+                    }
+
+                    if (!array_key_exists('class', $v))
+                    {
+                        $v['class'] = $header::GRID_CELL;
                     }
 
                     $v = $this->createCell($v);
@@ -99,15 +108,9 @@ class Grid extends \PhpTheme\Widget\Widget
                 {
                     $header = $headers[$key];
 
-                    if ($header->defaultCellAttributes)
-                    {
-                        $cell->attributes = HtmlHelper::mergeAttributes($cell->attributes, $header->defaultCellAttributes);
-                    }
-
-                    if ($header->cellAttributes)
-                    {
-                        $cell->attributes = HtmlHelper::mergeAttributes($cell->attributes, $header->cellAttributes);
-                    }
+                    $cell->attributes = HtmlHelper::mergeAttributes($cell->attributes, $header->getDefaultCellAttributes());
+                    
+                    $cell->attributes = HtmlHelper::mergeAttributes($cell->attributes, $header->getCellAttributes());
                 }
 
                 $item .= $cell->toString();
@@ -171,16 +174,16 @@ class Grid extends \PhpTheme\Widget\Widget
         return $this->renderHeader() . $content;
     }
 
-    public function createCell(array $params = [])
+    public function createHeader(array $params = [])
     {
-        $class = $params['class'] ?? static::GRID_CELL;
+        $class = $params['class'] ?? static::GRID_HEADER;
 
         return new $class($params, $this);
     }
 
-    public function createHeader(array $params = [])
+    public function createCell(array $params = [])
     {
-        $class = $params['class'] ?? static::GRID_HEADER;
+        $class = $params['class'] ?? static::GRID_CELL;
 
         return new $class($params, $this);
     }
