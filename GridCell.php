@@ -13,6 +13,8 @@ class GridCell extends \PhpTheme\Widget\Widget
 
     public $tag = 'td';
 
+    public $escapeContent = true;
+
     public function __construct(array $params = [], Grid $grid = null)
     {
         parent::__construct($params);
